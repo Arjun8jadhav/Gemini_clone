@@ -1,54 +1,37 @@
+import Groq from "groq-sdk";
 
-import {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} from "@google/generative-ai";
-
-const MODEL_NAME = "gemini-1.0-pro";
-const API_KEY = "AIzaSyA-ih0uHHIQn_MUgOK5J8LPipqkJUDadYo";
+const tempkeynotbestole = "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"; // Replace with your actual Groq API key
 
 async function runChat(prompt) {
-  const genAI = new GoogleGenerativeAI(API_KEY);
-  const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+  // Basic validation
+  if (!tempkeynotbestole || tempkeynotbestole === "your-groq-api-key-here") {
+    console.error("Please add your Groq API key");
+    return;
+  }
+  
+  if (!prompt) {
+    console.error("Prompt cannot be empty.");
+    return;
+  }
 
-  const generationConfig = {
-    temperature: 0.9,
-    topK: 1,
-    topP: 1,
-    maxOutputTokens: 2048,
-  };
+  try {
+    const groq = new Groq({ apiKey: tempkeynotbestole , dangerouslyAllowBrowser: true});
+    
+    const completion = await groq.chat.completions.create({
+      messages: [{ role: "user", content: prompt }],
+      model: "llama-3.1-8b-instant", // Fastest free model
+      temperature: 0.7, // Lower for more consistent results
+      max_tokens: 1024, // Lower to save tokens
+      stream: false
+    });
 
-  const safetySettings = [
-    {
-      category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-    },
-    {
-      category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-    },
-    {
-      category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-    },
-    {
-      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-    },
-  ];
+    const text = completion.choices[0]?.message?.content || "No response generated";
+    return text;
 
-  const chat = model.startChat({
-    generationConfig,
-    safetySettings,
-    history: [
-    ],
-  });
-
-  const result = await chat.sendMessage(prompt);
-  const response = result.response;
-  console.log(response.text());
-  return response.text();
+  } catch (error) {
+    console.error("Error:", error.message);
+    return "Sorry, I couldn't process that request.";
+  }
 }
 
- export default runChat;
+export default runChat;
