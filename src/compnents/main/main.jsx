@@ -17,7 +17,7 @@ const Main = () => {
         setInput(promptText);
     };
     return (
-        <div className="main">
+        <div className="main" style={{marginLeft: "10px"}}>
             <div className="nav">
                 <p>PAAM</p>
                 <img src={assets.user_icon} alt="" />
@@ -120,8 +120,7 @@ const Main = () => {
                     </div>
                     <div className="bottom-info">
                         <p>
-                            Gemini may display inaccurate info, including about people, so
-                            double-check its responses. Your privacy & Gemini Apps
+                           Due to the expiration of the Gemini API and its paid requirement, the application has been updated to use the Groq API instead.
                         </p>
                      
                     </div>

@@ -16,7 +16,7 @@ const Sidebar = () => {
                         <p className="recent-title">Recent</p>
                         <div className="recent-entry">
                             <img src={assets.message_icon} alt="" />
-                            <p> What is react</p>
+                            <p style={{maxWidth:"200px", textWrap:"wrap"}}>PAAM - named after the initials of our friend group.</p>
                         </div>
                     </div>
                 : null}
