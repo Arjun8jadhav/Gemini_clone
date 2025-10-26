@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 
-const tempkeynotbestole = "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"; // Replace with your actual Groq API key
-
+const tempkeynotbestole = "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"; // Replace with your actual Groq API key
+console.log("Using Groq API Key:", tempkeynotbestole ? "Provided" : "Not Provided");
 async function runChat(prompt) {
   // Basic validation
   if (!tempkeynotbestole || tempkeynotbestole === "your-groq-api-key-here") {
